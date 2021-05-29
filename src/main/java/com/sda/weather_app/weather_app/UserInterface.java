@@ -1,12 +1,16 @@
-package com.sda.weather_app;
+package com.sda.weather_app.weather_app;
 
 import java.util.Scanner;
 
 
 public class UserInterface {
 
-    private LocationController locationController = new LocationController();
-    private LocationRepository locationRepository = new LocationRepository();
+    private final LocationController locationController;
+    private LocationRepositoryImpl locationRepository = new LocationRepositoryImpl();
+
+    public UserInterface(LocationController locationController) {
+        this.locationController = locationController;
+    }
 
     public void run() {
 

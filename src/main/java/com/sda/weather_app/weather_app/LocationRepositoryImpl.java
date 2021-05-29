@@ -1,4 +1,4 @@
-package com.sda.weather_app;
+package com.sda.weather_app.weather_app;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,13 +8,12 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.List;
-import java.util.UUID;
 
-public class LocationRepository {
+public class LocationRepositoryImpl implements LocationRepository {
 
     private final SessionFactory sessionFactory;
 
-    public LocationRepository() {
+    public LocationRepositoryImpl() {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
@@ -24,6 +23,7 @@ public class LocationRepository {
                 .buildSessionFactory();
     }
 
+    @Override
     public Location save(final Location location) {
 
         Session session = sessionFactory.openSession();

@@ -1,4 +1,4 @@
-package com.sda.weather_app;
+package com.sda.weather_app.weather_app;
 
 import javax.persistence.*;
 
@@ -6,9 +6,8 @@ import javax.persistence.*;
 @Table(name = "location")
 public class Location {
 
-    // domyślnie AUTO -> wybiera pomiędzy IDENTITY, SEQUENCE, TABLE na podstawie drivera -> SEQUENCE dla MySQLA
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // domyślnie AUTO -> wybiera pomiędzy IDENTITY, SEQUENCE, TABLE na podstawie drivera -> SEQUENCE dla MySQLA
     private Long id;
 
     private String city;

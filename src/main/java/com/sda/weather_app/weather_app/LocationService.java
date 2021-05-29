@@ -1,14 +1,19 @@
-package com.sda.weather_app;
+package com.sda.weather_app.weather_app;
 
 public class LocationService {
 
-    private LocationRepository locationRepository = new LocationRepository();
+    private final LocationRepositoryImpl locationRepository;
+
+    public LocationService(LocationRepository locationRepository) {
+        this.locationRepository = (LocationRepositoryImpl) locationRepository;
+    }
 
     public Location createNewLocation(String city, String region, String country, float longitude, float latitude) {
         //todo - data validation
         if (!LocationValidator.isValidLongitude(longitude) &&
                 !LocationValidator.isValidLatitude(latitude) &&
-                !LocationValidator.isValidCityName(city) && !LocationValidator.isValidCountryName(country)) {
+                !LocationValidator.isValidCityName(city) &&
+                !LocationValidator.isValidCountryName(country)) {
             throw new IllegalArgumentException("The parameters did not pass validation as defined by the LocationValidator class");
         }
 
@@ -51,14 +56,14 @@ public class LocationService {
 
         public static boolean isValidCityName(String city) {
             if (city == null || city.isEmpty()) {
-                throw new RuntimeException("Field city can't be empty!");
+                throw new RuntimeException("Field city can't be null or empty!");
             }
             return true;
         }
 
         public static boolean isValidCountryName(String country) {
             if (country == null || country.isEmpty()) {
-                throw new RuntimeException("Field country can't be empty!");
+                throw new RuntimeException("Field country can't be null or empty!");
             }
             return true;
         }

@@ -1,8 +1,12 @@
-package com.sda.weather_app;
+package com.sda.weather_app.weather_app;
 
 public class LocationController {
 
-    private LocationService locationService = new LocationService();
+    private final LocationService locationService;
+
+    public LocationController(LocationService locationService) {
+        this.locationService = locationService;
+    }
 
     public String createNewLocation(String city, String region, String country, float longitude, float latitude) {
         //todo
