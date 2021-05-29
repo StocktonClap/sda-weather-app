@@ -1,6 +1,4 @@
-package com.sda.weather_app.weather_app;
-
-import java.util.Optional;
+package com.sda.weather;
 
 public class LocationService {
 

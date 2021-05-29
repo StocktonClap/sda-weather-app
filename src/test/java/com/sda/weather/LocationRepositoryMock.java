@@ -1,7 +1,4 @@
-package com.sda.weather_app;
-
-import com.sda.weather_app.weather_app.Location;
-import com.sda.weather_app.weather_app.LocationRepository;
+package com.sda.weather;
 
 import java.util.ArrayList;
 import java.util.List;

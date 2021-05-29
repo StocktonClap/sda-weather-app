@@ -1,4 +1,4 @@
-package com.sda.weather_app.weather_app; // todo move to com.sda.weather
+package com.sda.weather;
 
 import javax.persistence.*;
 
