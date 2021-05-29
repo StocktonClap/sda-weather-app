@@ -7,8 +7,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import java.util.List;
-
 public class LocationRepositoryImpl implements LocationRepository {
 
     private final SessionFactory sessionFactory;
@@ -25,7 +23,6 @@ public class LocationRepositoryImpl implements LocationRepository {
 
     @Override
     public Location save(final Location location) {
-
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
@@ -35,16 +32,5 @@ public class LocationRepositoryImpl implements LocationRepository {
         session.close();
 
         return location;
-    }
-
-    public void deleteById(Integer id) {
-        sessionFactory.createEntityManager().createQuery("DELETE FROM Location l WHERE l.id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
-    }
-
-    public List<Location> findAll() {
-        return sessionFactory.createEntityManager().createQuery("SELECT (l) FROM Location l", Location.class)
-                .getResultList();
     }
 }

@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class UserInterface {
 
     private final LocationController locationController;
-    private LocationRepositoryImpl locationRepository = new LocationRepositoryImpl();
 
     public UserInterface(LocationController locationController) {
         this.locationController = locationController;
@@ -63,20 +62,15 @@ public class UserInterface {
         System.out.println("Latitude");
         float latitude = scanner.nextFloat();
         String httpResponseBody = locationController.createNewLocation(city, region, country, longitude, latitude);
-        System.out.println("Server response: " +httpResponseBody);
+        System.out.println("Server response: " + httpResponseBody);
         System.out.println();
     }
 
     public void deleteById() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Id location which one u want do delete:");
-        int id = scanner.nextInt();
-        locationRepository.deleteById(id);
+        System.out.println("to implement");
     }
 
     public void showAll() {
-        System.out.println("Locations saved in database:");
-        locationRepository.findAll();
+        System.out.println("to implement");
     }
-
 }

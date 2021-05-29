@@ -1,15 +1,17 @@
 package com.sda.weather_app.weather_app;
 
+import java.util.Optional;
+
 public class LocationService {
 
-    private final LocationRepositoryImpl locationRepository;
+    private final LocationRepository locationRepository; // todo just LocationRepository
 
     public LocationService(LocationRepository locationRepository) {
-        this.locationRepository = (LocationRepositoryImpl) locationRepository;
+        this.locationRepository = locationRepository;
     }
 
     public Location createNewLocation(String city, String region, String country, float longitude, float latitude) {
-        //todo - data validation
+        //todo - data validation - just call methods
         if (!LocationValidator.isValidLongitude(longitude) &&
                 !LocationValidator.isValidLatitude(latitude) &&
                 !LocationValidator.isValidCityName(city) &&
@@ -17,9 +19,11 @@ public class LocationService {
             throw new IllegalArgumentException("The parameters did not pass validation as defined by the LocationValidator class");
         }
 
-        Location newLocation = new Location(null, city, region, country, longitude, latitude);
+        Location newLocation = new Location(null, city, region, country, longitude, latitude); // todo set region as a null value
 
-        //todo save to the database ! - klasa DAO - warstwa danych
+        // todo region -> "     "
+        //  set region if value is correct newLocation.setRegion(value);
+        //  Optional.ofNullable(region).filter(...).ifPresent(...)
 
         return locationRepository.save(newLocation);
     }
@@ -55,7 +59,7 @@ public class LocationService {
         public static float MAX_LONGITUDE = 180.0000F;
 
         public static boolean isValidCityName(String city) {
-            if (city == null || city.isEmpty()) {
+            if (city == null || city.isEmpty()) { // todo isBlank
                 throw new RuntimeException("Field city can't be null or empty!");
             }
             return true;
