@@ -35,7 +35,7 @@ public class UserInterface {
                     addNewLocation();
                     break;
                 case 2:
-                    showAll();
+                    getAllLocations();
                     break;
                 case 3:
                     System.out.println("Weather forecast for location:");
@@ -66,8 +66,11 @@ public class UserInterface {
         System.out.println();
     }
 
-    public void showAll() {
-        System.out.println("to implement");
+    public void getAllLocations() {
+        System.out.println("Locations saved in Database:");
+        String httpResponseBody = locationController.getAllLocations();
+        System.out.println("Server response: " + httpResponseBody);
+        System.out.println();
     }
 
     public void deleteById() {

@@ -3,12 +3,15 @@ package com.sda.weather;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 public class LocationServiceTest {
 
     LocationService locationService;
+    LocationRepository locationRepository;
 
     @BeforeEach
     public void setUp() {
@@ -146,5 +149,17 @@ public class LocationServiceTest {
 
         //then
         assertThat(result).isExactlyInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void getAllLocations_DataBaseHasSomeValues_returnThoseValues() {
+        // TODO
+        // given
+        locationRepository.clear();
+        locationRepository.save(new Location());
+        locationRepository.save(new Location());
+        // when
+        List<Location> locationList = locationService.getAllLocations();
+        //then
     }
 }

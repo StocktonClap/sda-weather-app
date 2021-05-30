@@ -3,6 +3,8 @@ package com.sda.weather;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.List;
+
 public class LocationService {
 
     private final LocationRepository locationRepository;
@@ -33,5 +35,13 @@ public class LocationService {
         Location newLocation = new Location(null, city, region, country, longitude, latitude);
 
         return locationRepository.save(newLocation);
+    }
+
+    public List<Location> getAllLocations() {
+        List<Location> locationList = locationRepository.getAllLocations();
+        if (locationList.isEmpty()) {
+            throw new RuntimeException("Database is empty");
+        }
+        return locationList;
     }
 }

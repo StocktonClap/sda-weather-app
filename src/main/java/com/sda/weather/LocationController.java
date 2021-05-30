@@ -2,6 +2,8 @@ package com.sda.weather;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.List;
+
 public class LocationController {
 
     private final LocationService locationService;
@@ -15,6 +17,15 @@ public class LocationController {
         try {
             Location newLocation = locationService.createNewLocation(city, region, country, longitude, latitude);
             return objectMapper.writeValueAsString(newLocation);
+        } catch (Exception e) {
+            return "{\"error massage\": \"" + e.getMessage() + "\"}";
+        }
+    }
+
+    public String getAllLocations() {
+        try {
+            List<Location> locationList = locationService.getAllLocations();
+            return objectMapper.writeValueAsString(locationList);
         } catch (Exception e) {
             return "{\"error massage\": \"" + e.getMessage() + "\"}";
         }
