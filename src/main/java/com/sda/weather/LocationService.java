@@ -1,73 +1,37 @@
 package com.sda.weather;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class LocationService {
 
-    private final LocationRepository locationRepository; // todo just LocationRepository
+    private final LocationRepository locationRepository;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     public LocationService(LocationRepository locationRepository) {
         this.locationRepository = locationRepository;
+        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public Location createNewLocation(String city, String region, String country, float longitude, float latitude) {
-        //todo - data validation - just call methods
-        if (!LocationValidator.isValidLongitude(longitude) &&
-                !LocationValidator.isValidLatitude(latitude) &&
-                !LocationValidator.isValidCityName(city) &&
-                !LocationValidator.isValidCountryName(country)) {
-            throw new IllegalArgumentException("The parameters did not pass validation as defined by the LocationValidator class");
+        if (city == null || city.isBlank()) {
+            throw new RuntimeException("City name can't be empty!");
+        }
+        if (country == null || country.isBlank()) {
+            throw new RuntimeException("Country name can't be empty!");
+        }
+        if (longitude < -180 || longitude > 180) {
+            throw new IllegalArgumentException("Longitude: parameters did not pass validation as defined: min -180, max 180");
+        }
+        if (latitude < -90 || latitude > 90) {
+            throw new IllegalArgumentException("Latitude: parameters did not pass validation as defined: min -90, max 90");
+        }
+        if (region.isBlank()) {
+            region = null;
         }
 
-        Location newLocation = new Location(null, city, region, country, longitude, latitude); // todo set region as a null value
-
-        // todo region -> "     "
-        //  set region if value is correct newLocation.setRegion(value);
-        //  Optional.ofNullable(region).filter(...).ifPresent(...)
+        Location newLocation = new Location(null, city, region, country, longitude, latitude);
 
         return locationRepository.save(newLocation);
-    }
-
-    static class LocationValidator {
-
-        public static boolean isValidLatitude(float latitude) {
-            if (latitude >= MIN_LATITUDE && latitude <= MAX_LATITUDE) {
-                return true;
-            } else {
-                throw new IllegalArgumentException("Latitude: parameters did not pass validation as defined");
-            }
-        }
-
-        public static boolean isValidLongitude(float longitude) {
-            if (longitude >= MIN_LONGITUDE && longitude <= MAX_LONGITUDE) {
-                return true;
-            } else {
-                throw new IllegalArgumentException("Longitude: parameters did not pass validation as defined!");
-            }
-        }
-
-        // the minimum allowed latitude
-        public static float MIN_LATITUDE = -90.0000F;
-
-        // the maximum allowed latitude
-        public static float MAX_LATITUDE = 90.0000F;
-
-        // the minimum allowed longitude
-        public static float MIN_LONGITUDE = -180.0000F;
-
-        // the maximum allowed longitude
-        public static float MAX_LONGITUDE = 180.0000F;
-
-        public static boolean isValidCityName(String city) {
-            if (city == null || city.isEmpty()) { // todo isBlank
-                throw new RuntimeException("Field city can't be null or empty!");
-            }
-            return true;
-        }
-
-        public static boolean isValidCountryName(String country) {
-            if (country == null || country.isEmpty()) {
-                throw new RuntimeException("Field country can't be null or empty!");
-            }
-            return true;
-        }
     }
 }

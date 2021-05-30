@@ -38,6 +38,20 @@ public class LocationServiceTest {
         // then
         assertThat(result.getId()).isNotNull();
         assertThat(result.getCity()).isEqualTo("city");
+        assertThat(result.getRegion()).isBlank();
+        assertThat(result.getCountry()).isEqualTo("country");
+        assertThat(result.getLongitude()).isEqualTo(10);
+        assertThat(result.getLatitude()).isEqualTo(12);
+    }
+
+    @Test
+    public void whenCreateNewLocation_regionIsEmpty_thenCreatesNewLocation() {
+        // when
+        Location result = locationService.createNewLocation("city", "", "country", 10, 12);
+
+        // then
+        assertThat(result.getId()).isNotNull();
+        assertThat(result.getCity()).isEqualTo("city");
         assertThat(result.getRegion()).isNull();
         assertThat(result.getCountry()).isEqualTo("country");
         assertThat(result.getLongitude()).isEqualTo(10);
@@ -63,9 +77,72 @@ public class LocationServiceTest {
     }
 
     @Test
+    public void whenCreateNewLocation_cityIsNull_throwsAnException() {
+        //when
+        Throwable result = catchThrowable(() -> locationService.createNewLocation(null, "region", "country", 10, 10));
+
+        //then
+        assertThat(result).isExactlyInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    public void whenCreateNewLocation_countryIsEmpty_throwsAnException() {
+        //when
+        Throwable result = catchThrowable(() -> locationService.createNewLocation("city", "region", "", 10, 10));
+
+        //then
+        assertThat(result).isExactlyInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    public void whenCreateNewLocation_countryIsBlank_throwsAnException() {
+        //when
+        Throwable result = catchThrowable(() -> locationService.createNewLocation("city", "region", "  ", 10, 10));
+
+        //then
+        assertThat(result).isExactlyInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    public void whenCreateNewLocation_countryIsNull_throwsAnException() {
+        //when
+        Throwable result = catchThrowable(() -> locationService.createNewLocation("city", "region", null, 10, 10));
+
+        //then
+        assertThat(result).isExactlyInstanceOf(RuntimeException.class);
+    }
+
+    @Test
     public void whenCreateNewLocation_longitudeIsGreaterThan180_throwsAnException() {
         //when
         Throwable result = catchThrowable(() -> locationService.createNewLocation("city", "region", "country", 181, 10));
+
+        //then
+        assertThat(result).isExactlyInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void whenCreateNewLocation_longitudeIsSmallerThan180_throwsAnException() {
+        //when
+        Throwable result = catchThrowable(() -> locationService.createNewLocation("city", "region", "country", -181, 10));
+
+        //then
+        assertThat(result).isExactlyInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void whenCreateNewLocation_latitudeIsGreaterThan90_throwsAnException() {
+        //when
+        Throwable result = catchThrowable(() -> locationService.createNewLocation("city", "region", "country", 10, 91));
+
+        //then
+        assertThat(result).isExactlyInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void whenCreateNewLocation_latitudeIsSmallerThan90_throwsAnException() {
+        //when
+        Throwable result = catchThrowable(() -> locationService.createNewLocation("city", "region", "country", 10, -91));
 
         //then
         assertThat(result).isExactlyInstanceOf(IllegalArgumentException.class);

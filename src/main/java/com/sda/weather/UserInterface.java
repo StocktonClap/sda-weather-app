@@ -66,11 +66,11 @@ public class UserInterface {
         System.out.println();
     }
 
-    public void deleteById() {
+    public void showAll() {
         System.out.println("to implement");
     }
 
-    public void showAll() {
+    public void deleteById() {
         System.out.println("to implement");
     }
 }

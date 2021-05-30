@@ -1,8 +1,11 @@
 package com.sda.weather;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class LocationController {
 
     private final LocationService locationService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public LocationController(LocationService locationService) {
         this.locationService = locationService;
@@ -11,11 +14,8 @@ public class LocationController {
     public String createNewLocation(String city, String region, String country, float longitude, float latitude) {
         try {
             Location newLocation = locationService.createNewLocation(city, region, country, longitude, latitude);
-            // todo use new ObjectMapper -> alt + enter -> add Maven dependency
-            // fail on unknown property -> false
-            return "{\"id\": " + newLocation.getId() + " , \"city\": \"" + newLocation.getCity() + "\", \"region\": \"" + newLocation.getRegion() + "\", " +
-                    "\"country\": \"" + newLocation.getCountry() + "\", \"longitude\": \"" + newLocation.getLongitude() + "\", \"latitude\": \"" + newLocation.getLatitude() + "\"}";
-        } catch (RuntimeException e) {
+            return objectMapper.writeValueAsString(newLocation);
+        } catch (Exception e) {
             return "{\"error massage\": \"" + e.getMessage() + "\"}";
         }
     }
